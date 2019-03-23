@@ -7,7 +7,10 @@ class SearchPanel extends Component {
       return (
          <div className="SearchPanel">
             <p>Hae aseman nimellä</p>
-            <SearchField />
+            <SearchField
+               onSearchChange={this.props.onSearchChange}
+               searchTerm={this.props.searchTerm}
+            />
          </div>
       );
    }

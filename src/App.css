@@ -13,6 +13,17 @@
    margin-left: 40px;
 }
 
+input[type="text"] {
+   width: 50%;
+   padding: 12px 20px;
+   margin: 8px 0;
+   display: inline-block;
+   border: 1px solid #ccc;
+   border-radius: 4px;
+   box-sizing: border-box;
+   background-color: #f1f1f1;
+}
+
 .TrainTabs {
    margin-top: 40px;
    margin-left: 40px;

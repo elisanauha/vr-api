@@ -1,14 +1,18 @@
 import React, { Component } from "react";
 
 class SearchField extends Component {
+   constructor(props) {
+      super(props);
+   }
+
    render() {
       return (
          <div className="SearchField">
             <input
-               //onChange={this.handleChange}
+               onChange={this.props.onSearchChange}
                type="text"
                name="citysearch"
-               //value={this.state.citysearch}
+               value={this.props.searchTerm}
             />
          </div>
       );
