@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import logo from "./logo.svg";
+
 import "./App.css";
 import HeaderPanel from "./components/HeaderPanel";
 import SearchPanel from "./components/SearchPanel";
-//import Sisalto from "./components/Content";
+import TrainTabs from "./components/TrainTabs";
 
 class App extends Component {
    render() {
@@ -11,6 +11,7 @@ class App extends Component {
          <div className="App">
             <HeaderPanel />
             <SearchPanel />
+            <TrainTabs />
          </div>
       );
    }

@@ -2,42 +2,68 @@
    text-align: left;
 }
 
-.App-logo {
-   animation: App-logo-spin infinite 20s linear;
-   height: 40vmin;
-   pointer-events: none;
-}
-
-.App-header {
-   background-color: #282c34;
-   min-height: 100vh;
-   display: flex;
-   flex-direction: column;
-   justify-content: center;
-   font-size: calc(10px + 2vmin);
-   color: white;
-}
-
-.App-link {
-   color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-   from {
-      transform: rotate(0deg);
-   }
-   to {
-      transform: rotate(360deg);
-   }
-}
-
 .HeaderPanel {
    background-color: green;
    color: white;
    text-align: left;
 }
 
+.SearchPanel {
+   margin-top: 40px;
+   margin-left: 40px;
+}
+
+.TrainTabs {
+   margin-top: 40px;
+   margin-left: 40px;
+   width: 80%;
+}
+
 h1 {
    margin: 0px;
    padding: 10px;
+   padding-left: 40px;
+}
+
+/* Style the tab */
+.tab {
+   overflow: hidden;
+   border-bottom: 1px solid #ccc;
+   background-color: #f1f1f1;
+}
+
+/* Style the buttons that are used to open the tab content */
+.tab button {
+   background-color: inherit;
+   color: green;
+   float: left;
+   border: none;
+   outline: none;
+   cursor: pointer;
+   padding: 14px 16px;
+   transition: 0.3s;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+   background-color: #ccc;
+   border-top: 1px solid #ccc;
+   border-right: 1px solid #ccc;
+   border-left: 1px solid #ccc;
+}
+
+table {
+   width: 100%;
+   border: 1px solid #ddd; /* Add a grey border */
+   border-spacing: 0px;
+}
+
+/* Add a bottom border to all table rows */
+tr,
+th {
+   border-bottom: 1px solid #ddd;
+}
+
+.OddRow {
+   background-color: #f1f1f1;
 }
