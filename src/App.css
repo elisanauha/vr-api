@@ -48,19 +48,24 @@ h1 {
    background-color: inherit;
    color: green;
    float: left;
-   border: none;
+   border-top: 2px solid #f1f1f1;
+   border-right: 2px solid #f1f1f1;
+   border-left: 2px solid #f1f1f1;
+   border-bottom: none;
    outline: none;
    cursor: pointer;
    padding: 14px 16px;
    transition: 0.3s;
+   font-size: 100%;
 }
 
 /* Create an active/current tablink class */
 .tab button.active {
-   background-color: #ccc;
-   border-top: 1px solid #ccc;
-   border-right: 1px solid #ccc;
-   border-left: 1px solid #ccc;
+   color: black;
+   border-top: 2px solid #ccc;
+   border-right: 2px solid #ccc;
+   border-left: 2px solid #ccc;
+   border-bottom: none;
 }
 
 table {

@@ -12,15 +12,18 @@ class App extends Component {
       this.state = {
          stations: null,
          searchTerm: "",
-         station: "",
-         arriving: true
+         station: "TPE",
+         arriving: true,
+         trains: []
       };
 
       this.handleSearch = this.handleSearch.bind(this);
+      this.handleTabChange = this.handleTabChange.bind(this);
    }
 
    /**
     * Fetching the station data only when the app mounts as it is likely not going to change
+    * Fetching original data for a station (Tampere)
     */
    componentDidMount() {
       // Need to get the station data for searching to get stationShortCode
@@ -38,6 +41,36 @@ class App extends Component {
 
             this.setState({ stations: filteredData });
             //console.log(filteredData);
+         });
+
+      let search =
+         "https://rata.digitraffic.fi/api/v1/live-trains/station/" +
+         this.state.station +
+         "?minutes_before_departure=600" +
+         "&minutes_after_departure=1" +
+         "&minutes_before_arrival=600" +
+         "&minutes_after_arrival=1";
+      fetch(search)
+         .then(response => response.json())
+         .then(data => {
+            // filter by trainCategory - we want "Long-distance" and "Commuter", not "Cargo" etc.
+            let filteredData = [];
+            for (let train of data) {
+               if (
+                  train.trainCategory === "Long-distance" ||
+                  train.trainCategory === "Commuter"
+               ) {
+                  // Filtering out all the extra stations in the time table as only need the ones for the current station
+                  // dope and the first and last
+                  // train.timeTableRows = train.timeTableRows.filter(
+                  //    row => row.stationShortCode === this.state.station
+                  // );
+
+                  filteredData.push(train);
+               }
+            }
+            console.log(filteredData);
+            this.setState({ trains: filteredData });
          });
    }
 
@@ -63,12 +96,23 @@ class App extends Component {
          }
       }
 
+      // Setting the new state with searchTerm and station to display
       let newstate = {
          searchTerm: newsearchterm,
          station: matchingStation
       };
 
       this.setState(newstate);
+   }
+
+   handleTabChange(event) {
+      console.log(event.target.id);
+      let arriving = false;
+      if (event.target.id === "arriving") {
+         arriving = true;
+      }
+
+      this.setState({ arriving: arriving });
    }
 
    render() {
@@ -79,7 +123,12 @@ class App extends Component {
                onSearchChange={this.handleSearch}
                searchTerm={this.state.searchTerm}
             />
-            <TrainTabs />
+            <TrainTabs
+               arrivingTab={this.state.arriving}
+               onTabChange={this.handleTabChange}
+               trains={this.state.trains}
+               station={this.state.station}
+            />
          </div>
       );
    }
