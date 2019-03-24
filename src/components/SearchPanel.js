@@ -11,6 +11,7 @@ class SearchPanel extends Component {
                onSearchChange={this.props.onSearchChange}
                searchTerm={this.props.searchTerm}
             />
+            <p>{this.props.stationFull}</p>
          </div>
       );
    }

@@ -11,8 +11,9 @@ class App extends Component {
 
       this.state = {
          stations: null,
-         searchTerm: "",
+         searchTerm: "Tampere",
          station: "TPE",
+         stationFull: "Tampere asema",
          arriving: true,
          trains: []
       };
@@ -46,9 +47,9 @@ class App extends Component {
       let search =
          "https://rata.digitraffic.fi/api/v1/live-trains/station/" +
          this.state.station +
-         "?minutes_before_departure=600" +
+         "?minutes_before_departure=400" +
          "&minutes_after_departure=1" +
-         "&minutes_before_arrival=600" +
+         "&minutes_before_arrival=400" +
          "&minutes_after_arrival=1";
       fetch(search)
          .then(response => response.json())
@@ -60,8 +61,8 @@ class App extends Component {
                   train.trainCategory === "Long-distance" ||
                   train.trainCategory === "Commuter"
                ) {
-                  // Filtering out all the extra stations in the time table as only need the ones for the current station
-                  // dope and the first and last
+                  // Would be nice to filtering out all the extra stations in the time table as only
+                  // need the ones for the current station !and the first and last! TODO: check
                   // train.timeTableRows = train.timeTableRows.filter(
                   //    row => row.stationShortCode === this.state.station
                   // );
@@ -83,7 +84,8 @@ class App extends Component {
       let newsearchterm = event.target.value;
 
       // Searching through the stations to get first station starting with the searchTerm text
-      let matchingStation = "";
+      let matchingStation = this.state.station;
+      let matchingStationFull = this.state.stationFull;
       for (let station of this.state.stations) {
          console.log(station.stationName);
          if (
@@ -92,17 +94,49 @@ class App extends Component {
                .startsWith(newsearchterm.toLowerCase())
          ) {
             matchingStation = station.stationShortCode;
+            matchingStationFull = station.stationName;
             break;
          }
       }
-
       // Setting the new state with searchTerm and station to display
       let newstate = {
          searchTerm: newsearchterm,
-         station: matchingStation
+         station: matchingStation,
+         stationFull: matchingStationFull
       };
 
       this.setState(newstate);
+
+      // Now fetching the trains for the matchingStation
+      let search =
+         "https://rata.digitraffic.fi/api/v1/live-trains/station/" +
+         matchingStation +
+         "?minutes_before_departure=400" +
+         "&minutes_after_departure=1" +
+         "&minutes_before_arrival=400" +
+         "&minutes_after_arrival=1";
+      fetch(search)
+         .then(response => response.json())
+         .then(data => {
+            // filter by trainCategory - we want "Long-distance" and "Commuter", not "Cargo" etc.
+            let filteredData = [];
+            for (let train of data) {
+               if (
+                  train.trainCategory === "Long-distance" ||
+                  train.trainCategory === "Commuter"
+               ) {
+                  // Would be nice to filtering out all the extra stations in the time table as only
+                  // need the ones for the current station !and the first and last! TODO: check
+                  // train.timeTableRows = train.timeTableRows.filter(
+                  //    row => row.stationShortCode === this.state.station
+                  // );
+
+                  filteredData.push(train);
+               }
+            }
+            console.log(filteredData);
+            this.setState({ trains: filteredData });
+         }); // TODO .catch()
    }
 
    handleTabChange(event) {
@@ -122,6 +156,7 @@ class App extends Component {
             <SearchPanel
                onSearchChange={this.handleSearch}
                searchTerm={this.state.searchTerm}
+               stationFull={this.state.stationFull}
             />
             <TrainTabs
                arrivingTab={this.state.arriving}

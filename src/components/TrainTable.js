@@ -1,76 +1,102 @@
 import React, { Component } from "react";
+import TrainRows from "./TrainRows";
 
 class TrainTable extends Component {
+   constructor(props) {
+      super(props);
+   }
+
    render() {
-      // Checking if departure or arrival column is wanted
-      let timeColumn = "Lähtee";
-      if (this.props.arrivingTab) {
-         timeColumn = "Saapuu";
+      let station = this.props.station;
+
+      // Comparsison functions to sort trains according to arrival or departure time at specified station.
+      // TODO: check when the sorting is done as first render not sorted!!
+      function dateCompareArriving(a, b) {
+         let timea = "";
+         let timeb = "";
+         for (let rowa of a.timeTableRows) {
+            if (rowa.stationShortCode === station && rowa.type === "ARRIVAL") {
+               timea = rowa.scheduledTime;
+               break;
+            }
+         }
+         for (let rowb of b.timeTableRows) {
+            if (rowb.stationShortCode === station && rowb.type === "ARRIVAL") {
+               timeb = rowb.scheduledTime;
+               break;
+            }
+         }
+         let datea = new Date(timea);
+         let dateb = new Date(timeb);
+         return datea - dateb;
       }
 
-      // if type is
-      // type: "ARRIVAL" or type: "DEPARTURE"
-      // liveEstimateTime: "2019-03-23T18:50:00.000Z"
-      // scheduledTime: "2019-03-23T18:50:00.000Z"
+      function dateCompareDeparting(a, b) {
+         let timea = "";
+         let timeb = "";
+         for (let rowa of a.timeTableRows) {
+            if (
+               rowa.stationShortCode === station &&
+               rowa.type === "DEPARTURE"
+            ) {
+               timea = rowa.scheduledTime;
+               break;
+            }
+         }
+         for (let rowb of b.timeTableRows) {
+            if (
+               rowb.stationShortCode === station &&
+               rowb.type === "DEPARTURE"
+            ) {
+               timeb = rowb.scheduledTime;
+               break;
+            }
+         }
+         let datea = new Date(timea);
+         let dateb = new Date(timeb);
+         return datea - dateb;
+      }
+
+      // Checking if departure or arrival column is wanted
+      // Trains also have to be sorted by arrival or departure time
+      let timeColumn = "";
+      if (this.props.arrivingTab) {
+         timeColumn = "Saapuu";
+         // sort with arriving time
+         this.props.trains.sort(dateCompareArriving);
+      } else {
+         timeColumn = "Lähtee";
+         // sort with departure time
+         this.props.trains.sort(dateCompareDeparting);
+      }
+
       let trainrows = [];
-      let i = 1;
+      let i = 1; // keep track of even or odd
+
       for (let train of this.props.trains) {
-         let evenclass = "OddRow";
-         if (i % 2 === 0) {
-            evenclass = "EvenRow";
-         }
-
-         // Checking if departure or arrival times are wanted
-         let timeScheduled = "";
-         let timeEstimated = [];
-         if (this.props.arrivingTab) {
-            for (let row of train.timeTableRows) {
-               if (
-                  row.type === "ARRIVAL" &&
-                  row.stationShortCode === this.props.station
-               ) {
-                  timeScheduled = row.scheduledTime.slice(11, 16);
-                  if (row.differenceInMinutes > 0) {
-                     timeEstimated.push(row.liveEstimateTime.slice(11, 16));
-                     timeEstimated.push(<br key="br" />);
-                  }
-               }
-            }
-         } else {
-            for (let row of train.timeTableRows) {
-               if (
-                  row.type === "DEPARTURE" &&
-                  row.stationShortCode === this.props.station
-               ) {
-                  timeScheduled = row.scheduledTime.slice(11, 16);
-                  if (row.differenceInMinutes > 0) {
-                     timeEstimated.push(row.liveEstimateTime.slice(11, 16));
-                     timeEstimated.push(<br key="br" />);
-                  }
-               }
-            }
-         }
-
-         let departureStation = train.timeTableRows[0].stationShortCode;
-         let arrivalStation =
-            train.timeTableRows[train.timeTableRows.length - 1]
-               .stationShortCode;
-
-         trainrows.push(
-            <tr className={evenclass} key={i}>
-               <td>
-                  {train.trainType} {train.trainNumber}
-               </td>
-               <td>{departureStation}</td>
-               <td>{arrivalStation}</td>
-               <td>
-                  {timeEstimated}
-
-                  {timeScheduled}
-               </td>
-            </tr>
+         // If departures are wanted but the trains final destination is the current city then the row is not wanted
+         // If arrivals are wanted but the first station is the station wanted then row is not wanted
+         // ie. no one cares when the train comes or goes from "storage"
+         if (
+            (this.props.arrivingTab && // is arriving
+               train.timeTableRows[0].stationShortCode ===
+                  this.props.station) || // station is first station
+            (!this.props.arrivingTab && // is departing
+               train.timeTableRows[train.timeTableRows.length - 1]
+                  .stationShortCode === this.props.station) // station is final station
          );
-         i++;
+         else {
+            trainrows.push(
+               <TrainRows
+                  train={train}
+                  i={i}
+                  station={this.props.station}
+                  arrivingTab={this.props.arrivingTab}
+                  key={i}
+               />
+            );
+            i++;
+         }
       }
 
       return (
