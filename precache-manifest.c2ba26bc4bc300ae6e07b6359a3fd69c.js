@@ -4,19 +4,19 @@ self.__precacheManifest = [
     "url": "/vr-api/static/js/runtime~main.235a56e1.js"
   },
   {
-    "revision": "071c49a16aa19c076c27",
-    "url": "/vr-api/static/js/main.1e8e15ff.chunk.js"
+    "revision": "e27ec34c20a346794610",
+    "url": "/vr-api/static/js/main.884e9ddd.chunk.js"
   },
   {
     "revision": "3e9695650bc64bd28618",
     "url": "/vr-api/static/js/2.4548674f.chunk.js"
   },
   {
-    "revision": "071c49a16aa19c076c27",
+    "revision": "e27ec34c20a346794610",
     "url": "/vr-api/static/css/main.d2e40e14.chunk.css"
   },
   {
-    "revision": "ce3ec62a2906bf268104d0a58e6253b7",
+    "revision": "6980cc2337a7823d8a67b631b2a30d0a",
     "url": "/vr-api/index.html"
   }
 ];
