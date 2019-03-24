@@ -89,7 +89,6 @@ class App extends Component {
       let matchingStation = this.state.station;
       let matchingStationFull = this.state.stationFull;
       for (let station of this.state.stations) {
-         console.log(station.stationName);
          if (
             station.stationName
                .toLowerCase()
@@ -156,7 +155,6 @@ class App extends Component {
     * @param {button onClick} event
     */
    handleTabChange(event) {
-      console.log(event.target.id);
       let arriving = false;
       if (event.target.id === "arriving") {
          arriving = true;
