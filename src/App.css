@@ -2,12 +2,20 @@
    text-align: left;
 }
 
+/* Style the header panel content */
 .HeaderPanel {
    background-color: green;
    color: white;
    text-align: left;
 }
 
+h1 {
+   margin: 0px;
+   padding: 10px;
+   padding-left: 40px;
+}
+
+/* Style the search panel and content */
 .SearchPanel {
    margin-top: 40px;
    margin-left: 40px;
@@ -24,26 +32,19 @@ input[type="text"] {
    background-color: #f1f1f1;
 }
 
+/* Style the train tabs and content */
 .TrainTabs {
    margin-top: 40px;
    margin-left: 40px;
    width: 80%;
 }
 
-h1 {
-   margin: 0px;
-   padding: 10px;
-   padding-left: 40px;
-}
-
-/* Style the tab */
 .tab {
    overflow: hidden;
    border-bottom: 1px solid #ccc;
    background-color: #f1f1f1;
 }
 
-/* Style the buttons that are used to open the tab content */
 .tab button {
    background-color: inherit;
    color: green;
@@ -68,9 +69,10 @@ h1 {
    border-bottom: none;
 }
 
+/* Style the table and rows */
 table {
    width: 100%;
-   border: 1px solid #ddd; /* Add a grey border */
+   border: 1px solid #ddd;
    border-spacing: 0px;
 }
 
@@ -78,8 +80,35 @@ table {
 tr,
 th {
    border-bottom: 1px solid #ddd;
+   height: 50px;
+}
+
+td,
+th {
+   padding: 5px;
 }
 
 .OddRow {
    background-color: #f1f1f1;
+}
+
+/* C when train cancelled and text needs to be grey */
+.OddRowC {
+   background-color: #f1f1f1;
+   color: gray;
+}
+
+.EvenRowC {
+   background-color: white;
+   color: gray;
+}
+
+/* red for the estimated times and cancelled text */
+p.lateOrCancelled {
+   color: red;
+   margin: 0px;
+}
+
+span.late {
+   font-size: 80%;
 }

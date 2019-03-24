@@ -1,58 +1,40 @@
 import React, { Component } from "react";
-//import "./App.css";
 import TrainTable from "./TrainTable";
 
 class TrainTabs extends Component {
    render() {
-      let buttons = [];
+      // A check on which we want active
+      let arrivingTabActivity = "inactive";
+      let departingTabActivity = "active";
       if (this.props.arrivingTab) {
-         buttons.push(
-            <div className="tab" key="arriving">
-               <button
-                  className="active"
-                  id="arriving"
-                  onClick={this.props.onTabChange}
-               >
-                  Saapuvat
-               </button>
-               <button
-                  className="inactive"
-                  id="leaving"
-                  onClick={this.props.onTabChange}
-               >
-                  Lähtevät
-               </button>
-            </div>
-         );
-      } else {
-         buttons.push(
-            <div className="tab" key="leaving">
-               <button
-                  className="inactive"
-                  id="arriving"
-                  onClick={this.props.onTabChange}
-               >
-                  Saapuvat
-               </button>
-               <button
-                  className="active"
-                  id="leaving"
-                  onClick={this.props.onTabChange}
-               >
-                  Lähtevät
-               </button>
-            </div>
-         );
+         arrivingTabActivity = "active";
+         departingTabActivity = "inactive";
       }
 
       return (
          <div className="TrainTabs">
-            {buttons}
+            <div className="tab">
+               <button
+                  className={arrivingTabActivity}
+                  id="arriving"
+                  onClick={this.props.onTabChange}
+               >
+                  Saapuvat
+               </button>
+               <button
+                  className={departingTabActivity}
+                  id="leaving"
+                  onClick={this.props.onTabChange}
+               >
+                  Lähtevät
+               </button>
+            </div>
 
             <TrainTable
                trains={this.props.trains}
                station={this.props.station}
                arrivingTab={this.props.arrivingTab}
+               stations={this.props.stations}
             />
          </div>
       );
